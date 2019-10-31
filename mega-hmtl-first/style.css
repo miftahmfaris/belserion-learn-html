@@ -1,0 +1,57 @@
+.navbar-nav li {
+    margin: 0 20px;
+}
+
+.navbar-nav {
+    margin: auto;
+}
+
+.navbar-brand img {
+    width: 50px;
+}
+
+.title {
+    text-align: center;
+}
+
+.title p {
+    margin: 0;
+}
+
+.title .link {
+    margin-top: 10px;
+}
+
+body {
+    font-family: "Raleway", sans-serif;
+}
+
+.detail {
+    margin-top: 100px;
+}
+
+.detail p,
+.detail .spesification {
+    font-size: 24px;
+}
+
+.detail img {
+    max-height: 80%;
+}
+
+.mac-image {
+    display: flex;
+    justify-content: center;
+}
+
+.detail-link {
+    text-align: center;
+}
+
+.buy {
+    background-color: black;
+}
+
+.buy img {
+    width: 100%;
+}
