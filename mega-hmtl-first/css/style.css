@@ -55,3 +55,7 @@ body {
 .buy img {
     width: 100%;
 }
+
+.buttons {
+    background-color: red;
+}
