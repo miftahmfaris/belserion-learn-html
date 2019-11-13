@@ -1,0 +1,24 @@
+{
+  "name": "learn-npm",
+  "version": "1.0.0",
+  "description": "this is project for learn npm",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "apaaja": "node index.js"
+  },
+  "keywords": [
+    "npm",
+    "node"
+  ],
+  "author": "miftahmfaris",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^1.19.4"
+  },
+  "dependencies": {
+    "chalk": "^3.0.0"
+  }
+}

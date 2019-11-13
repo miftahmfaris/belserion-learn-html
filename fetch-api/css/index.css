@@ -1,0 +1,15 @@
+.flex-center {
+    display: flex;
+    justify-content: center;
+}
+
+#profile-name {
+    text-align: center;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
