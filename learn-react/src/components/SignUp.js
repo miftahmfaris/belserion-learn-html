@@ -30,6 +30,8 @@ export default class SignUp extends Component {
 
     handleSubmit = event => {
         event.preventDefault();
+        console.log(this.state);
+        
 
         localStorage.setItem("user", JSON.stringify(this.state));
     };

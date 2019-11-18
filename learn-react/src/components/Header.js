@@ -1,35 +1,40 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { Fragment, Component } from "react";
+import { withRouter } from "react-router-dom";
+import MemberHeader from "./member/Header";
+import GuestHeader from "./guest/Header";
 
-export default function Header() {
-    return (
-        <nav>
-            <ul
-                style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    listStyleType: "none"
-                }}
-            >
-                <li style={{ margin: "0 10px" }}>
-                    <Link to="/">Home</Link>
-                </li>
-                <li style={{ margin: "0 10px" }}>
-                    <Link to="/about">About</Link>
-                </li>
-                <li style={{ margin: "0 10px" }}>
-                    <Link to="/contact">Contact</Link>
-                </li>
-                <li style={{ margin: "0 10px" }}>
-                    <Link to="/users">Users</Link>
-                </li>
-                <li style={{ margin: "0 10px" }}>
-                    <Link to="/signin">Sign In</Link>
-                </li>
-                <li style={{ margin: "0 10px" }}>
-                    <Link to="/signup">Sign Up</Link>
-                </li>
-            </ul>
-        </nav>
-    );
+class Header extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            isLogin: false
+        };
+    }
+
+    componentDidUpdate = () => {
+        if (
+            this.state.isLogin === JSON.parse(localStorage.getItem("isLogin"))
+        ) {
+            return;
+        } else {
+            this.setState({
+                isLogin: JSON.parse(localStorage.getItem("isLogin"))
+            });
+        }
+    };
+
+    render() {
+        return (
+            <Fragment>
+                {this.state.isLogin !== true ? (
+                    <GuestHeader />
+                ) : (
+                    <MemberHeader />
+                )}
+            </Fragment>
+        );
+    }
 }
+
+export default withRouter(Header);

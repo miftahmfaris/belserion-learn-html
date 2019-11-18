@@ -1,10 +1,5 @@
 import React from "react";
-import {
-    BrowserRouter as Router,
-    Route,
-    Switch,
-    Redirect
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import {
     Home,
     About,
@@ -15,21 +10,12 @@ import {
     SignIn,
     SignUp
 } from "./components";
-// import Home from "./components/Home";
-// import About from "./components/About";
-// import Contact from "./components/Contact";
 
 function App() {
-    const isLogin = JSON.parse(localStorage.getItem("isLogin"));
-
     return (
         <Router>
             <Header />
             <Switch>
-                {/* <Route path="/" exact component={Home} />
-                    <Route path="/about" component={About} />
-                    <Route path="/contact" component={Contact} /> */}
-
                 <Route path="/about">
                     <About />
                 </Route>
@@ -37,7 +23,7 @@ function App() {
                     <Contact />
                 </Route>
                 <Route path="/" exact={true}>
-                    {isLogin !== true ? <Redirect to="/signin" /> : <Home />}
+                    <Home />
                 </Route>
                 <Route path="/users" exact={true}>
                     <Users />

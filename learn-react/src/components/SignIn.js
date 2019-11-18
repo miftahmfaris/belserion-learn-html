@@ -1,4 +1,5 @@
 import React from "react";
+import { withRouter } from "react-router-dom";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -6,13 +7,12 @@ import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
-import Paper from "@material-ui/core/Paper";
-import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import { withRouter } from "react-router-dom";
+import Container from "@material-ui/core/Container";
 
 function Copyright() {
     return (
@@ -28,17 +28,13 @@ function Copyright() {
 }
 
 const useStyles = makeStyles(theme => ({
-    root: {
-        height: "100vh"
-    },
-    image: {
-        backgroundImage: "url(https://source.unsplash.com/random)",
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "cover",
-        backgroundPosition: "center"
+    "@global": {
+        body: {
+            backgroundColor: theme.palette.common.white
+        }
     },
     paper: {
-        margin: theme.spacing(8, 4),
+        marginTop: theme.spacing(8),
         display: "flex",
         flexDirection: "column",
         alignItems: "center"
@@ -56,15 +52,19 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-function SignInSide(props) {
+function SignIn(props) {
     const classes = useStyles();
-    const [state, setState] = React.useState({ email: "", password: "" });
+
+    const [signIn, setSignIn] = React.useState({ email: "", password: "" });
 
     const handleSubmit = event => {
         event.preventDefault();
+
         const user = JSON.parse(localStorage.getItem("user"));
-        if (user.email === state.email && user.password === state.password) {
+
+        if (user.email === signIn.email && user.password === signIn.password) {
             localStorage.setItem("isLogin", JSON.stringify(true));
+
             if (JSON.parse(localStorage.getItem("isLogin"))) {
                 props.history.push("/");
             }
@@ -74,98 +74,85 @@ function SignInSide(props) {
     };
 
     const handleChange = event => {
-        setState({
-            ...state,
+        setSignIn({
+            ...signIn,
             [event.target.name]: event.target.value
         });
     };
 
     return (
-        <Grid container component="main" className={classes.root}>
+        <Container component="main" maxWidth="xs">
             <CssBaseline />
-            <Grid item xs={false} sm={4} md={7} className={classes.image} />
-            <Grid
-                item
-                xs={12}
-                sm={8}
-                md={5}
-                component={Paper}
-                elevation={6}
-                square
-            >
-                <div className={classes.paper}>
-                    <Avatar className={classes.avatar}>
-                        <LockOutlinedIcon />
-                    </Avatar>
-                    <Typography component="h1" variant="h5">
-                        Sign in
-                    </Typography>
-                    <form
-                        className={classes.form}
-                        noValidate
-                        onSubmit={event => handleSubmit(event)}
+            <div className={classes.paper}>
+                <Avatar className={classes.avatar}>
+                    <LockOutlinedIcon />
+                </Avatar>
+                <Typography component="h1" variant="h5">
+                    Sign in
+                </Typography>
+                <form
+                    className={classes.form}
+                    noValidate
+                    onSubmit={handleSubmit}
+                >
+                    <TextField
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="email"
+                        label="Email Address"
+                        name="email"
+                        autoComplete="email"
+                        autoFocus
+                        defaultValue={signIn.email}
+                        onChange={handleChange}
+                    />
+                    <TextField
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        name="password"
+                        label="Password"
+                        type="password"
+                        id="password"
+                        autoComplete="current-password"
+                        defaultValue={signIn.password}
+                        onChange={handleChange}
+                    />
+                    <FormControlLabel
+                        control={<Checkbox value="remember" color="primary" />}
+                        label="Remember me"
+                    />
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        className={classes.submit}
                     >
-                        <TextField
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="email"
-                            label="Email Address"
-                            name="email"
-                            autoComplete="email"
-                            autoFocus
-                            defaultValue={state.password}
-                            onChange={handleChange}
-                        />
-                        <TextField
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            fullWidth
-                            name="password"
-                            label="Password"
-                            type="password"
-                            id="password"
-                            autoComplete="current-password"
-                            defaultValue={state.password}
-                            onChange={handleChange}
-                        />
-                        <FormControlLabel
-                            control={
-                                <Checkbox value="remember" color="primary" />
-                            }
-                            label="Remember me"
-                        />
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            color="primary"
-                            className={classes.submit}
-                        >
-                            Sign In
-                        </Button>
-                        <Grid container>
-                            <Grid item xs>
-                                <Link href="#" variant="body2">
-                                    Forgot password?
-                                </Link>
-                            </Grid>
-                            <Grid item>
-                                <Link href="#" variant="body2">
-                                    {"Don't have an account? Sign Up"}
-                                </Link>
-                            </Grid>
+                        Sign In
+                    </Button>
+                    <Grid container>
+                        <Grid item xs>
+                            <Link href="#" variant="body2">
+                                Forgot password?
+                            </Link>
                         </Grid>
-                        <Box mt={5}>
-                            <Copyright />
-                        </Box>
-                    </form>
-                </div>
-            </Grid>
-        </Grid>
+                        <Grid item>
+                            <Link href="#" variant="body2">
+                                {"Don't have an account? Sign Up"}
+                            </Link>
+                        </Grid>
+                    </Grid>
+                </form>
+            </div>
+            <Box mt={8}>
+                <Copyright />
+            </Box>
+        </Container>
     );
 }
 
-export default withRouter(SignInSide);
+export default withRouter(SignIn);
