@@ -1,9 +1,11 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 
-export default function Header() {
+function Header(props) {
     const logOut = () => {
         localStorage.removeItem("isLogin");
+        
+        props.history.push("/signin");
     };
     return (
         <nav>
@@ -35,3 +37,5 @@ export default function Header() {
         </nav>
     );
 }
+
+export default withRouter(Header);

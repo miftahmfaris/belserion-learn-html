@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
+import { withRouter } from "react-router-dom";
 
 const CssTextField = withStyles({
     root: {
@@ -15,13 +16,12 @@ const CssTextField = withStyles({
         }
     }
 })(TextField);
-
-export default class SignUp extends Component {
+class SignUp extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            firstName: "",
+            firstName: "miftah",
             lastName: "",
             email: "",
             password: ""
@@ -30,10 +30,9 @@ export default class SignUp extends Component {
 
     handleSubmit = event => {
         event.preventDefault();
-        console.log(this.state);
-        
 
         localStorage.setItem("user", JSON.stringify(this.state));
+        this.props.history.push("/signin");
     };
 
     handleChange = event => {
@@ -55,7 +54,7 @@ export default class SignUp extends Component {
                         required
                         label="First Name"
                         name="firstName"
-                        defaultValue={this.state.name}
+                        defaultValue={this.state.firstName}
                         margin="normal"
                         onChange={this.handleChange}
                         fullWidth
@@ -64,7 +63,7 @@ export default class SignUp extends Component {
                         required
                         label="Last Name"
                         name="lastName"
-                        defaultValue={this.state.name}
+                        defaultValue={this.state.lastName}
                         margin="normal"
                         onChange={this.handleChange}
                         fullWidth
@@ -73,7 +72,7 @@ export default class SignUp extends Component {
                         required
                         label="email"
                         name="email"
-                        defaultValue={this.state.name}
+                        defaultValue={this.state.email}
                         margin="normal"
                         onChange={this.handleChange}
                         type="email"
@@ -83,7 +82,7 @@ export default class SignUp extends Component {
                         required
                         label="password"
                         name="password"
-                        defaultValue={this.state.name}
+                        defaultValue={this.state.password}
                         margin="normal"
                         onChange={this.handleChange}
                         type="password"
@@ -95,3 +94,5 @@ export default class SignUp extends Component {
         );
     }
 }
+
+export default withRouter(SignUp);

@@ -53,6 +53,16 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function SignIn(props) {
+    // constructor(props) {
+    //     super(props)
+
+    //     this.state = {
+    //          email:"",
+    //          password:""
+    //     }
+    // }
+    // this.setState()
+
     const classes = useStyles();
 
     const [signIn, setSignIn] = React.useState({ email: "", password: "" });
@@ -65,7 +75,7 @@ function SignIn(props) {
         if (user.email === signIn.email && user.password === signIn.password) {
             localStorage.setItem("isLogin", JSON.stringify(true));
 
-            if (JSON.parse(localStorage.getItem("isLogin"))) {
+            if (JSON.parse(localStorage.getItem("isLogin")) === true) {
                 props.history.push("/");
             }
         } else {
@@ -74,6 +84,10 @@ function SignIn(props) {
     };
 
     const handleChange = event => {
+        // this.setState({
+        //     ...this.state,
+        //     [event.target.name]: event.target.value
+        // })
         setSignIn({
             ...signIn,
             [event.target.name]: event.target.value
