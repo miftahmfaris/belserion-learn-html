@@ -1,98 +1,112 @@
-import React, { Component } from "react";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import { withStyles } from "@material-ui/core/styles";
+import React from "react";
 import { withRouter } from "react-router-dom";
+import { Formik, ErrorMessage } from "formik";
+import { validationForm } from "../validate";
 
-const CssTextField = withStyles({
-    root: {
-        "& .MuiFormControl-root": {
-            display: "block !important",
-            color: "blue"
-        },
-        "& .MuiFormLabel-root ": {
-            display: "block",
-            color: "blue"
-        }
-    }
-})(TextField);
-class SignUp extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            firstName: "miftah",
-            lastName: "",
-            email: "",
-            password: ""
-        };
-    }
-
-    handleSubmit = event => {
-        event.preventDefault();
-
-        localStorage.setItem("user", JSON.stringify(this.state));
-        this.props.history.push("/signin");
-    };
-
-    handleChange = event => {
-        this.setState({
-            ...this.state,
-            [event.target.name]: event.target.value
-        });
-    };
-
-    render() {
-        return (
-            <div>
-                <form
-                    noValidate
-                    autoComplete="off"
-                    onSubmit={this.handleSubmit}
-                >
-                    <CssTextField
-                        required
-                        label="First Name"
-                        name="firstName"
-                        defaultValue={this.state.firstName}
-                        margin="normal"
-                        onChange={this.handleChange}
-                        fullWidth
-                    />
-                    <CssTextField
-                        required
-                        label="Last Name"
-                        name="lastName"
-                        defaultValue={this.state.lastName}
-                        margin="normal"
-                        onChange={this.handleChange}
-                        fullWidth
-                    />
-                    <CssTextField
-                        required
-                        label="email"
-                        name="email"
-                        defaultValue={this.state.email}
-                        margin="normal"
-                        onChange={this.handleChange}
-                        type="email"
-                        fullWidth
-                    />
-                    <CssTextField
-                        required
-                        label="password"
-                        name="password"
-                        defaultValue={this.state.password}
-                        margin="normal"
-                        onChange={this.handleChange}
-                        type="password"
-                        fullWidth
-                    />
-                    <Button type="submit">Submit</Button>
-                </form>
-            </div>
-        );
-    }
+function SignUp() {
+    return (
+        <div>
+            <Formik
+                initialValues={{
+                    email: "",
+                    password: ""
+                }}
+                validate={validationForm}
+                onSubmit={(values, { setSubmitting }) => {
+                    localStorage.setItem("user", JSON.stringify(values));
+                    this.props.history.push("/signin");
+                }}
+            >
+                {({
+                    values,
+                    handleChange,
+                    handleBlur,
+                    handleSubmit,
+                    isSubmitting
+                }) => (
+                    <form onSubmit={handleSubmit}>
+                        <fieldset>
+                            <div>
+                                <label htmlFor="firstName">First Name:</label>
+                                <input
+                                    type="text"
+                                    name="firstName"
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.firstName}
+                                />
+                                <p
+                                    style={{
+                                        color: "red",
+                                        fontStyle: "italic"
+                                    }}
+                                >
+                                    <ErrorMessage name="firstName" />
+                                </p>
+                            </div>
+                            <div>
+                                <label htmlFor="lastName">Last Name:</label>
+                                <input
+                                    type="text"
+                                    name="lastName"
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.lastName}
+                                />
+                                <p
+                                    style={{
+                                        color: "red",
+                                        fontStyle: "italic"
+                                    }}
+                                >
+                                    <ErrorMessage name="lastName" />
+                                </p>
+                            </div>
+                            <div>
+                                <label htmlFor="email">Email:</label>
+                                <input
+                                    type="email"
+                                    name="email"
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.email}
+                                />
+                                <p
+                                    style={{
+                                        color: "red",
+                                        fontStyle: "italic"
+                                    }}
+                                >
+                                    <ErrorMessage name="email" />
+                                </p>
+                            </div>
+                            <div>
+                                <label htmlFor="password">Password:</label>
+                                <input
+                                    type="password"
+                                    name="password"
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.password}
+                                />
+                                <p
+                                    style={{
+                                        color: "red",
+                                        fontStyle: "italic"
+                                    }}
+                                >
+                                    <ErrorMessage name="password" />
+                                </p>
+                            </div>
+                            <button type="submit" disabled={isSubmitting}>
+                                Register
+                            </button>
+                        </fieldset>
+                    </form>
+                )}
+            </Formik>
+        </div>
+    );
 }
 
 export default withRouter(SignUp);
