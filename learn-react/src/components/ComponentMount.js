@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 import ComponentUnmount from "./ComponentUnmount";
 import ComponentUpdate from "./ComponentUpdate";
 
@@ -14,12 +15,13 @@ export default class ComponentMount extends Component {
     }
 
     componentDidMount = () => {
-        fetch("https://api.github.com/users/miftahmfaris")
+        axios
+            .get("https://api.github.com/users/miftahmfaris")
             .then(response => {
-                return response.json();
+                this.setState({ data: response.data });
             })
-            .then(data => {
-                this.setState({ data: data });
+            .catch(error => {
+                console.log(error);
             });
     };
 
