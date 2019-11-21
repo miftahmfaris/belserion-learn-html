@@ -18,8 +18,6 @@ export default class ClassComponent extends Component {
     };
 
     render() {
-        console.log(process.env.REACT_APP_API_GITHUB, "apigithub");
-
         return (
             <div>
                 <p>Count: {this.state.count}</p>

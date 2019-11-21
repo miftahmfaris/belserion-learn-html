@@ -33,20 +33,20 @@ class NestedUser extends Component {
         this.setState({ id: id });
 
         axios
-            .get(`${API_PLACEHOLDER}/users/${id}/posts`)
+            .get(`${API_PLACEHOLDER}/posts`)
             .then(response => {
-                const result = response.data.filter(
-                    item => item.userId.toString() === id.toString()
+                const filtered = response.data.filter(
+                    item => item.userId === parseInt(id)
                 );
 
-                this.setState({ posts: result });
+                this.setState({ posts: filtered });
             })
             .catch(error => {
                 console.log(error);
             });
     };
 
-    deletePost = (postId, index) => {
+    deletePost = (postId, key) => {
         axios
             .delete(`${API_PLACEHOLDER}/posts/${postId}`)
             .then(response => {
@@ -65,18 +65,22 @@ class NestedUser extends Component {
                                 `Your post with id: ${postId} is deleted.`,
                                 "success"
                             );
+
                             let rest = this.state.posts;
 
-                            rest.splice(index, 1);
+                            rest.splice(key, 1);
 
                             this.setState({
                                 posts: rest
                             });
                         }
                     });
+                } else {
+                    Swal.fire("There is something wrong", "error");
                 }
             })
             .catch(error => {
+                Swal.fire("There is something wrong", "error");
                 console.log(error);
             });
     };
@@ -97,13 +101,10 @@ class NestedUser extends Component {
             .then(result => {
                 if (result.value) {
                     axios
-                        .put(
-                            `${API_PLACEHOLDER}/posts/${postId}`,
-                            {
-                                title: result.value[0],
-                                body: result.value[1]
-                            }
-                        )
+                        .put(`${API_PLACEHOLDER}/posts/${postId}`, {
+                            title: result.value[0],
+                            body: result.value[1]
+                        })
                         .then(response => {
                             if (response.status === 200) {
                                 Swal.fire({
@@ -159,6 +160,7 @@ class NestedUser extends Component {
                                 let rest = this.state.posts;
 
                                 rest.push({
+                                    id: rest.length + 1,
                                     title: result.value[0],
                                     body: result.value[1]
                                 });
