@@ -36,43 +36,51 @@ export default class About extends Component {
                 }}
             >
                 {this.state.data.length > 0 &&
-                    this.state.data.map((item, key) => {
-                        return (
-                            <Card
-                                style={{ maxWidth: "300px", margin: "10px" }}
-                                key={key}
-                            >
-                                <CardContent>
-                                    <Typography color="textSecondary">
-                                        {item.email}
-                                    </Typography>
-                                    <Typography variant="body1" component="p">
-                                        Hello my name is {item.name}
-                                    </Typography>
-                                    <br />
-                                    <Typography
-                                        variant="subtitle2"
-                                        component="p"
-                                    >
-                                        Phone: {item.phone}
-                                    </Typography>
-                                    <Typography
-                                        variant="subtitle2"
-                                        component="p"
-                                    >
-                                        Website: {item.website}
-                                    </Typography>
-                                </CardContent>
-                                <CardActions>
-                                    <Button size="small">
-                                        <Link to={`/users/${item.id}`}>
-                                            Learn More
-                                        </Link>
-                                    </Button>
-                                </CardActions>
-                            </Card>
-                        );
-                    })}
+                    this.state.data.map(
+                        ({ email, name, phone, website, id }, key) => {
+                            return (
+                                <Card
+                                    style={{
+                                        maxWidth: "300px",
+                                        margin: "10px"
+                                    }}
+                                    key={key}
+                                >
+                                    <CardContent>
+                                        <Typography color="textSecondary">
+                                            {email}
+                                        </Typography>
+                                        <Typography
+                                            variant="body1"
+                                            component="p"
+                                        >
+                                            Hello my name is {name}
+                                        </Typography>
+                                        <br />
+                                        <Typography
+                                            variant="subtitle2"
+                                            component="p"
+                                        >
+                                            Phone: {phone}
+                                        </Typography>
+                                        <Typography
+                                            variant="subtitle2"
+                                            component="p"
+                                        >
+                                            Website: {website}
+                                        </Typography>
+                                    </CardContent>
+                                    <CardActions>
+                                        <Button size="small">
+                                            <Link to={`/users/${id}`}>
+                                                Learn More
+                                            </Link>
+                                        </Button>
+                                    </CardActions>
+                                </Card>
+                            );
+                        }
+                    )}
             </div>
         );
     }
