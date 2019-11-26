@@ -1,0 +1,19 @@
+{
+    "name": "learn-api",
+    "version": "1.0.0",
+    "description": "this is project to learn api with express framework",
+    "main": "index.js",
+    "author": "miftahmfaris",
+    "license": "MIT",
+    "dependencies": {
+        "cors": "^2.8.5",
+        "express": "^4.17.1"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.1"
+    },
+    "scripts": {
+        "start": "node index.js",
+        "dev": "nodemon index.js"
+    }
+}
