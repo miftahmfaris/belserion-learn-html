@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 
 app.use("/", require("./routes"));
 app.use("/todo", require("./routes/todos"));
-// app.use("/user", require("./routes/users"));
+app.use("/user", require("./routes/users"));
 
 app.listen(PORT, () => {
     console.log(`This app listening on PORT: ${PORT}`);

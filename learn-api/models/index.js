@@ -1,3 +1,4 @@
 module.exports = {
-    todo: require("./todo")
+    todo: require("./todo"),
+    user: require("./user")
 };

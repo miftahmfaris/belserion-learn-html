@@ -1,4 +1,4 @@
-const todos = require("../../models");
+const { todo: todos } = require("../../models");
 
 module.exports = {
     getAll: (req, res) => {
@@ -12,7 +12,9 @@ module.exports = {
         res.send(findOne);
     },
     deleteOne: (req, res) => {
-        let newTodo = todos.todo.filter(item => item.id !== parseInt(req.params.id));
+        let newTodo = todos.todo.filter(
+            item => item.id !== parseInt(req.params.id)
+        );
 
         res.send(newTodo);
     }
