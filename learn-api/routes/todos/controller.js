@@ -1,8 +1,18 @@
 const { todo: todos } = require("../../models");
+const { get } = require("../../config");
 
 module.exports = {
     getAll: (req, res) => {
-        res.send(todos);
+        get()
+            .collection("todos")
+            .find({})
+            .toArray()
+            .then(result => {
+                res.send({ message: "Get all datas", data: result });
+            })
+            .catch(error => {
+                console.log(error);
+            });
     },
     getById: (req, res) => {
         const findOne = todos.todo.find(item => {
@@ -17,5 +27,16 @@ module.exports = {
         );
 
         res.send(newTodo);
+    },
+    addOne: (req, res) => {
+        get()
+            .collection("todos")
+            .insertOne(req.body)
+            .then(result => {
+                res.send({ message: "Data successfully added", data: result });
+            })
+            .catch(error => {
+                console.log(error);
+            });
     }
 };
