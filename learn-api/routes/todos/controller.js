@@ -1,5 +1,6 @@
 const { todo: todos } = require("../../models");
 const { get } = require("../../config");
+const objectId = require("mongodb").ObjectId;
 
 module.exports = {
     getAll: (req, res) => {
@@ -15,18 +16,36 @@ module.exports = {
             });
     },
     getById: (req, res) => {
-        const findOne = todos.todo.find(item => {
-            return item.id === Number(req.params.id);
-        });
+        const { id } = req.params;
 
-        res.send(findOne);
+        get()
+            .collection("todos")
+            .findOne({ _id: objectId(id) })
+            .then(result => {
+                res.send({
+                    message: `Get data with id ${id}`,
+                    data: result
+                });
+            })
+            .catch(error => {
+                console.log(error);
+            });
     },
     deleteOne: (req, res) => {
-        let newTodo = todos.todo.filter(
-            item => item.id !== parseInt(req.params.id)
-        );
+        const { id } = req.params;
 
-        res.send(newTodo);
+        get()
+            .collection("todos")
+            .deleteOne({ _id: objectId(id) })
+            .then(result => {
+                res.send({
+                    message: `Delete data with id ${id}`,
+                    data: result
+                });
+            })
+            .catch(error => {
+                console.log(error);
+            });
     },
     addOne: (req, res) => {
         get()
@@ -34,6 +53,21 @@ module.exports = {
             .insertOne(req.body)
             .then(result => {
                 res.send({ message: "Data successfully added", data: result });
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    },
+    updateOne: (req, res) => {
+        const { id } = req.params;
+        get()
+            .collection("todos")
+            .updateOne({ _id: objectId(id) }, { $set: req.body })
+            .then(result => {
+                res.send({
+                    message: `Data successfully update with id ${id}`,
+                    data: result
+                });
             })
             .catch(error => {
                 console.log(error);

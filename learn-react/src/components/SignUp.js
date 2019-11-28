@@ -41,6 +41,7 @@ const useStyles = makeStyles(theme => ({
 
 function SignUp(props) {
     const classes = useStyles();
+    const API = process.env.REACT_APP_API_LIVE;
 
     return (
         <Container component="main" maxWidth="xs">
@@ -59,17 +60,11 @@ function SignUp(props) {
                     }}
                     validate={validationForm}
                     onSubmit={values => {
-                        axios
-                            .post("http://localhost:5000", values)
-                            .then(response => {
-                                if (response.status === 201) {
-                                    localStorage.setItem(
-                                        "user",
-                                        JSON.stringify(response.data.data)
-                                    );
-                                    props.history.push("/signin");
-                                }
-                            });
+                        axios.post(`${API}/user`, values).then(response => {
+                            if (response.status === 201) {
+                                props.history.push("/signin");
+                            }
+                        });
                     }}
                 >
                     {({
