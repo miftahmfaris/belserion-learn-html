@@ -8,7 +8,9 @@ import {
     Users,
     Header,
     SignIn,
-    SignUp
+    SignUp,
+    Todo,
+    TodoMongoose
 } from "./components";
 
 function App() {
@@ -22,6 +24,9 @@ function App() {
                 <Route path="/contact">
                     <Contact />
                 </Route>
+                <Route path="/todo/mongo/:email">
+                    <Todo />
+                </Route>
                 <Route path="/" exact={true}>
                     <Home />
                 </Route>
@@ -33,6 +38,9 @@ function App() {
                 </Route>
                 <Route path="/signin">
                     <SignIn />
+                </Route>
+                <Route path="/todo/mongoose">
+                    <TodoMongoose />
                 </Route>
                 <Route path="/signup">
                     <SignUp />

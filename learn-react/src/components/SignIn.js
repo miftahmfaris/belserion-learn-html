@@ -10,6 +10,9 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import axios from "axios";
+import { Formik, ErrorMessage } from "formik";
+import { loginValidation } from "../validate";
 
 function Copyright() {
     return (
@@ -52,30 +55,7 @@ const useStyles = makeStyles(theme => ({
 function SignIn(props) {
     const classes = useStyles();
 
-    const [signIn, setSignIn] = React.useState({ email: "", password: "" });
-
-    const handleSubmit = event => {
-        event.preventDefault();
-
-        const user = JSON.parse(localStorage.getItem("user"));
-
-        if (user.email === signIn.email && user.password === signIn.password) {
-            localStorage.setItem("isLogin", JSON.stringify(true));
-
-            if (JSON.parse(localStorage.getItem("isLogin")) === true) {
-                props.history.push("/");
-            }
-        } else {
-            alert("email atau password salah");
-        }
-    };
-
-    const handleChange = event => {
-        setSignIn({
-            ...signIn,
-            [event.target.name]: event.target.value
-        });
-    };
+    const API = process.env.REACT_APP_API_LIVE;
 
     return (
         <Container component="main" maxWidth="xs">
@@ -87,59 +67,107 @@ function SignIn(props) {
                 <Typography component="h1" variant="h5">
                     Sign in
                 </Typography>
-                <form
-                    className={classes.form}
-                    noValidate
-                    onSubmit={handleSubmit}
+                <Formik
+                    initialValues={{
+                        email: "",
+                        password: ""
+                    }}
+                    validate={loginValidation}
+                    onSubmit={values => {
+                        axios
+                            .post(`${API}/user/login`, values)
+                            .then(response => {
+                                if (response.status === 200) {
+                                    localStorage.setItem(
+                                        "user",
+                                        JSON.stringify(response.data.data)
+                                    );
+                                    localStorage.setItem("isLogin", true);
+                                    props.history.push("/todo");
+                                }
+                            });
+                    }}
                 >
-                    <TextField
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="email"
-                        label="Email Address"
-                        name="email"
-                        autoComplete="email"
-                        autoFocus
-                        defaultValue={signIn.email}
-                        onChange={handleChange}
-                    />
-                    <TextField
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        name="password"
-                        label="Password"
-                        type="password"
-                        id="password"
-                        autoComplete="current-password"
-                        defaultValue={signIn.password}
-                        onChange={handleChange}
-                    />
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}
-                    >
-                        Sign In
-                    </Button>
-                    <Grid container>
-                        <Grid item xs>
-                            <Link href="#" variant="body2">
-                                Forgot password?
-                            </Link>
-                        </Grid>
-                        <Grid item>
-                            <Link to="/signup" variant="body2">
-                                {"Don't have an account? Sign Up"}
-                            </Link>
-                        </Grid>
-                    </Grid>
-                </form>
+                    {({
+                        values,
+                        handleChange,
+                        handleBlur,
+                        handleSubmit,
+                        isSubmitting
+                    }) => (
+                        <form
+                            className={classes.form}
+                            noValidate
+                            onSubmit={handleSubmit}
+                        >
+                            <TextField
+                                variant="outlined"
+                                margin="normal"
+                                required
+                                fullWidth
+                                id="email"
+                                label="Email Address"
+                                name="email"
+                                autoComplete="email"
+                                autoFocus
+                                defaultValue={values.email}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                            />
+                            <p
+                                style={{
+                                    color: "red",
+                                    fontStyle: "italic"
+                                }}
+                            >
+                                <ErrorMessage name="email" />
+                            </p>
+                            <TextField
+                                variant="outlined"
+                                margin="normal"
+                                required
+                                fullWidth
+                                name="password"
+                                label="Password"
+                                type="password"
+                                id="password"
+                                autoComplete="current-password"
+                                defaultValue={values.password}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                            />
+                            <p
+                                style={{
+                                    color: "red",
+                                    fontStyle: "italic"
+                                }}
+                            >
+                                <ErrorMessage name="password" />
+                            </p>
+                            <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                color="primary"
+                                className={classes.submit}
+                            >
+                                Sign In
+                            </Button>
+                            <Grid container>
+                                <Grid item xs>
+                                    <Link href="#" variant="body2">
+                                        Forgot password?
+                                    </Link>
+                                </Grid>
+                                <Grid item>
+                                    <Link to="/signup" variant="body2">
+                                        {"Don't have an account? Sign Up"}
+                                    </Link>
+                                </Grid>
+                            </Grid>
+                        </form>
+                    )}
+                </Formik>
             </div>
             <Box mt={8}>
                 <Copyright />

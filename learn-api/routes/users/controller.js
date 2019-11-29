@@ -5,7 +5,7 @@ const objectId = require("mongodb").ObjectId;
 module.exports = {
     getAll: (req, res) => {
         get()
-            .collection("user")
+            .collection("users")
             .find({})
             .toArray()
             .then(result => {
@@ -19,7 +19,7 @@ module.exports = {
         const { id } = req.params;
 
         get()
-            .collection("user")
+            .collection("users")
             .findOne({ _id: objectId(id) })
             .then(result => {
                 res.send({
@@ -35,7 +35,7 @@ module.exports = {
         const { id } = req.params;
 
         get()
-            .collection("user")
+            .collection("users")
             .deleteOne({ _id: objectId(id) })
             .then(result => {
                 res.send({
@@ -49,7 +49,7 @@ module.exports = {
     },
     addOne: (req, res) => {
         get()
-            .collection("user")
+            .collection("users")
             .insertOne(req.body)
             .then(result => {
                 res.status(201).json({
@@ -64,7 +64,7 @@ module.exports = {
     updateOne: (req, res) => {
         const { id } = req.params;
         get()
-            .collection("user")
+            .collection("users")
             .updateOne({ _id: objectId(id) }, { $set: req.body })
             .then(result => {
                 res.send({
@@ -74,6 +74,20 @@ module.exports = {
             })
             .catch(error => {
                 console.log(error);
+            });
+    },
+    login: (req, res) => {
+        const { body } = req;
+
+        get()
+            .collection("users")
+            .findOne({ email: body.email, password: body.password })
+            .then(response => {
+                const { email, firstName } = response;
+                res.status(200).json({
+                    message: "Login successfull",
+                    data: { email, firstName }
+                });
             });
     }
 };

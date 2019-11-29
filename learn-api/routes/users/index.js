@@ -6,13 +6,15 @@ const {
     getById,
     deleteOne,
     addOne,
-    updateOne
+    updateOne,
+    login
 } = require("./controller");
 
 router.get("/", getAll);
 router.get("/:id", getById);
 router.delete("/:id", deleteOne);
 router.post("/", addOne);
+router.post("/login", login);
 router.put("/:id", updateOne);
 
 module.exports = router;

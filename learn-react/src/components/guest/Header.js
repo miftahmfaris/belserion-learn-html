@@ -12,18 +12,6 @@ export default function Header() {
                 }}
             >
                 <li style={{ margin: "0 10px" }}>
-                    <Link to="/">Home</Link>
-                </li>
-                <li style={{ margin: "0 10px" }}>
-                    <Link to="/about">About</Link>
-                </li>
-                <li style={{ margin: "0 10px" }}>
-                    <Link to="/contact">Contact</Link>
-                </li>
-                <li style={{ margin: "0 10px" }}>
-                    <Link to="/users">Users</Link>
-                </li>
-                <li style={{ margin: "0 10px" }}>
                     <Link to="/signin">Sign In</Link>
                 </li>
                 <li style={{ margin: "0 10px" }}>

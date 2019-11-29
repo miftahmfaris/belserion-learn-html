@@ -15,6 +15,18 @@ module.exports = {
                 console.log(error);
             });
     },
+    getByEmail: (req, res) => {
+        get()
+            .collection("todos")
+            .find({ email: req.params.email })
+            .toArray()
+            .then(result => {
+                res.send({ message: "Get all datas by email", data: result });
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    },
     getById: (req, res) => {
         const { id } = req.params;
 
@@ -52,7 +64,10 @@ module.exports = {
             .collection("todos")
             .insertOne(req.body)
             .then(result => {
-                res.send({ message: "Data successfully added", data: result });
+                res.status(201).json({
+                    message: "Data successfully added",
+                    data: result
+                });
             })
             .catch(error => {
                 console.log(error);

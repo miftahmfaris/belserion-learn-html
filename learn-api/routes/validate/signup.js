@@ -4,7 +4,7 @@ const signup = async ({ email, password, firstName, lastName }) => {
     try {
         const result = {};
         const data = await get()
-            .collection("user")
+            .collection("users")
             .findOne({ email: email });
 
         if (!email) {
