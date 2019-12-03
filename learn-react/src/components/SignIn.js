@@ -74,6 +74,8 @@ function SignIn(props) {
                     }}
                     validate={loginValidation}
                     onSubmit={values => {
+                        console.log("masuk");
+                        
                         axios
                             .post(`${API}/user/login`, values)
                             .then(response => {
