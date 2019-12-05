@@ -9,12 +9,6 @@ export default function About() {
     });
     const [data, setData] = useState([]);
 
-    // const fetchData = () => {
-    //     axios.get("https://api.github.com/users/miftahmfaris").then(res => {
-    //         setData(res.data);
-    //     });
-    // };
-
     React.useEffect(() => {
         axios.get(process.env.REACT_APP_API_GITHUB).then(response => {
             setData(response.data);
@@ -36,7 +30,6 @@ export default function About() {
             >
                 Ubah buah
             </button>
-            {console.log(data)}
         </div>
     );
 }

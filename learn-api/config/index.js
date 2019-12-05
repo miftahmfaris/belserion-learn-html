@@ -2,7 +2,8 @@ const {
     PORT,
     DATABASE_HOST,
     DATABASE_PASSWORD,
-    DATABASE_NAME
+    DATABASE_NAME,
+    JWT_SECRET_KEY
 } = require("./environment");
 const { connect, get, close } = require("./connection");
 
@@ -13,5 +14,6 @@ module.exports = {
     DATABASE_NAME: DATABASE_NAME,
     connect: connect,
     get: get,
-    close: close
+    close: close,
+    JWT_SECRET_KEY
 };

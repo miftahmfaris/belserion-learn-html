@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import axios from "axios";
 import { withRouter } from "react-router-dom";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -11,8 +10,8 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import Button from "@material-ui/core/Button";
 import Swal from "sweetalert2";
+import { axiosPlaceholder } from "../helpers";
 
-const API_PLACEHOLDER = process.env.REACT_APP_API_PLACEHOLDER;
 class NestedUser extends Component {
     constructor(props) {
         super(props);
@@ -32,8 +31,8 @@ class NestedUser extends Component {
 
         this.setState({ id: id });
 
-        axios
-            .get(`${API_PLACEHOLDER}/posts`)
+        axiosPlaceholder()
+            .get(`/posts`)
             .then(response => {
                 const filtered = response.data.filter(
                     item => item.userId === parseInt(id)
@@ -47,8 +46,8 @@ class NestedUser extends Component {
     };
 
     deletePost = (postId, key) => {
-        axios
-            .delete(`${API_PLACEHOLDER}/posts/${postId}`)
+        axiosPlaceholder()
+            .delete(`/posts/${postId}`)
             .then(response => {
                 if (response.status === 200) {
                     Swal.fire({
@@ -100,8 +99,8 @@ class NestedUser extends Component {
             .queue(["Edit Title", "Edit Body"])
             .then(result => {
                 if (result.value) {
-                    axios
-                        .put(`${API_PLACEHOLDER}/posts/${postId}`, {
+                    axiosPlaceholder()
+                        .put(`/posts/${postId}`, {
                             title: result.value[0],
                             body: result.value[1]
                         })
@@ -145,8 +144,8 @@ class NestedUser extends Component {
             .queue(["Add Title", "Add Body"])
             .then(result => {
                 if (result.value) {
-                    axios
-                        .post(`${API_PLACEHOLDER}/posts`, {
+                    axiosPlaceholder()
+                        .post(`/posts`, {
                             title: result.value[0],
                             body: result.value[1]
                         })

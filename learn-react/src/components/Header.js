@@ -6,7 +6,7 @@ import GuestHeader from "./guest/Header";
 function Header() {
     return (
         <Fragment>
-            {JSON.parse(localStorage.getItem("isLogin")) !== true ? (
+            {JSON.parse(localStorage.getItem("token")) === null ? (
                 <GuestHeader />
             ) : (
                 <MemberHeader />

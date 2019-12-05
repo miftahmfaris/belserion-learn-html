@@ -1,5 +1,10 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+    BrowserRouter as Router,
+    Route,
+    Switch,
+    Redirect
+} from "react-router-dom";
 import {
     Home,
     About,
@@ -19,13 +24,21 @@ function App() {
             <Header />
             <Switch>
                 <Route path="/about">
-                    <About />
+                    {JSON.parse(localStorage.getItem("token")) ? (
+                        <Redirect to="/" />
+                    ) : (
+                        <About />
+                    )}
                 </Route>
                 <Route path="/contact">
                     <Contact />
                 </Route>
                 <Route path="/todo/mongo/:email">
-                    <Todo />
+                    {JSON.parse(localStorage.getItem("token")) === null ? (
+                        <Redirect to="/signin" />
+                    ) : (
+                        <Todo />
+                    )}
                 </Route>
                 <Route path="/" exact={true}>
                     <Home />
