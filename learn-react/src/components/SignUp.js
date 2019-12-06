@@ -41,6 +41,13 @@ const useStyles = makeStyles(theme => ({
 
 function SignUp(props) {
     const classes = useStyles();
+    const [image, setImage] = React.useState(null);
+    const [type, setType] = React.useState(null);
+
+    const handleImage = event => {
+        setType(event.target.files[0]);
+        setImage(URL.createObjectURL(event.target.files[0]));
+    };
 
     return (
         <Container component="main" maxWidth="xs">
@@ -59,8 +66,19 @@ function SignUp(props) {
                     }}
                     validate={validationForm}
                     onSubmit={values => {
+                        let formData = new FormData();
+
+                        for (const key in values) {
+                            if (values.hasOwnProperty(key)) {
+                                formData.append(key, values[key]);
+                                if (key === "image") {
+                                    formData.append(key, values.image.file);
+                                }
+                            }
+                        }
+
                         axios()
-                            .post(`/user`, values)
+                            .post(`/user`, formData)
                             .then(response => {
                                 if (response.status === 201) {
                                     props.history.push("/signin");
@@ -73,6 +91,7 @@ function SignUp(props) {
                         handleChange,
                         handleBlur,
                         handleSubmit,
+                        setFieldValue,
                         isSubmitting
                     }) => (
                         <form
@@ -170,6 +189,49 @@ function SignUp(props) {
                                     >
                                         <ErrorMessage name="password" />
                                     </p>
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <input
+                                        accept="/*"
+                                        id="contained-button-file"
+                                        type="file"
+                                        style={{ display: "none" }}
+                                        onChange={event => {
+                                            setFieldValue(
+                                                "image",
+                                                event.currentTarget.files[0]
+                                            );
+                                            handleImage(event);
+                                        }}
+                                    />
+                                    <label htmlFor="contained-button-file">
+                                        <Button
+                                            variant="contained"
+                                            color="primary"
+                                            component="span"
+                                        >
+                                            Upload
+                                        </Button>
+                                    </label>
+                                </Grid>
+                                <Grid item xs={6}>
+                                    {image && !type.type.includes("image") ? (
+                                        <video width="100%" controls>
+                                            <source
+                                                src={image}
+                                                type={image.type}
+                                            />
+                                            Your browser does not support HTML5
+                                            video.
+                                        </video>
+                                    ) : (
+                                        <img
+                                            width={image && "100%"}
+                                            src={image}
+                                            alt=""
+                                            id="preview-image"
+                                        />
+                                    )}
                                 </Grid>
                             </Grid>
                             <Button

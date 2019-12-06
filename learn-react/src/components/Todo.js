@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Divider from "@material-ui/core/Divider";
@@ -13,6 +14,7 @@ import { Formik, ErrorMessage } from "formik";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import { verify, axios } from "../helpers";
+import { fetchTodos } from "../actions";
 
 class Todo extends Component {
     constructor(props) {
@@ -28,21 +30,13 @@ class Todo extends Component {
 
     fetch = () => {
         if (verify() !== undefined) {
-            axios()
-                .get(`/todo/email/${verify().email}`)
-                .then(response => {
-                    this.setState({ todos: response.data.data });
-                })
-                .catch(error => {
-                    if (error.name === "TokenExpiredError") {
-                        localStorage.removeItem("token");
-                        this.props.history.push("/signin");
-                    }
-                });
+            this.props.fetchTodos(verify().email);
         }
     };
 
     componentDidMount = () => {
+        console.log(this.props);
+        
         this.fetch();
     };
 
@@ -67,6 +61,7 @@ class Todo extends Component {
         axios()
             .post(`/todo`, {
                 ...values,
+                user: verify().id,
                 name: verify().firstName,
                 email: verify().email
             })
@@ -168,8 +163,8 @@ class Todo extends Component {
                             width: "30%"
                         }}
                     >
-                        {this.state.todos.length > 0 &&
-                            this.state.todos.map((item, key) => {
+                        {this.props.todos.length > 0 &&
+                            this.props.todos.map((item, key) => {
                                 return (
                                     <React.Fragment key={key}>
                                         <ListItem alignItems="flex-start">
@@ -214,4 +209,16 @@ class Todo extends Component {
     }
 }
 
-export default withRouter(Todo);
+const mapStateToProps = state => {
+    return {
+        todos: state.todos
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        fetchTodos: email => dispatch(fetchTodos(email))
+    };
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Todo));

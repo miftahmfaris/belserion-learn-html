@@ -54,7 +54,7 @@ module.exports = {
 
         get()
             .collection("users")
-            .insertOne({ ...req.body, password: hash })
+            .insertOne({ ...req.body, password: hash, image: req.file.path })
             .then(result => {
                 res.status(201).json({
                     message: "Data successfully added",

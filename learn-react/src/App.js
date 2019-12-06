@@ -34,11 +34,7 @@ function App() {
                     <Contact />
                 </Route>
                 <Route path="/todo/mongo/:email">
-                    {JSON.parse(localStorage.getItem("token")) === null ? (
-                        <Redirect to="/signin" />
-                    ) : (
-                        <Todo />
-                    )}
+                    <Todo />
                 </Route>
                 <Route path="/" exact={true}>
                     <Home />
